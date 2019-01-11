@@ -146,10 +146,13 @@ resource "aws_iam_policy" "dynamodb_beers_read" {
   policy = "${data.aws_iam_policy_document.dynamodb_beers_read.json}"
 }
 
-output "dynamodb_beers_read_policy_arn" {
-  value = "${aws_iam_policy.dynamodb_beers_read.arn}"
-}
+output "dynamodb_beers_output" {
+  value = <<EOF
 
-output "dynamodb_table_beers_arn" {
-  value = "${aws_dynamodb_table.beers.arn}"
+
+export DYNAMODB_READ_ONLY_ARN="${aws_iam_policy.dynamodb_beers_read.arn}"
+export DYNAMODB_BEERS_TABLE_ARN="${aws_dynamodb_table.beers.arn}"
+export DYNAMO_BEERS_TABLE_NAME="${var.owner}-vault-demo-beers"
+
+EOF
 }
