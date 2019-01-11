@@ -1,4 +1,6 @@
 {
-  "answer" : "42",
-  "question" : "????"
+  "data" : {
+    "answer" : "42",
+    "question" : "????"
+  }
 }
