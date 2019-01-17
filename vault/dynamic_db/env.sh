@@ -1,9 +1,11 @@
-export PATH=${PATH}:/Users/jake/git/demo-tools
+export PATH=${PATH}:../../demo-tools
 
 export DB_HOST=${IP_ADDRESS}
 export DB_PORT=5432
 export DB_ADMIN_USER=postgres
 export DB_ADMIN_PW=1234
+export VAULT_ADMIN_USER=vault_admin 
+export VAULT_ADMIN_PW=notsosecure
 export DB_ROLE=full-read
 export DYNAMIC_DEFAULT_TTL="1m"
 export DYNAMIC_MAX_TTL="24h"

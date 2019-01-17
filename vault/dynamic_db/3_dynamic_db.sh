@@ -7,8 +7,8 @@ vault write database/config/vices
     plugin_name=postgresql-database-plugin 
     allowed_roles=full-read 
     connection_url="postgresql://{{username}}:{{password}}@${DB_HOST}:${DB_PORT}/vices?sslmode=disable" 
-    username="${DB_ADMIN_USER}" 
-    password="${DB_ADMIN_PW}"
+    username="${VAULT_ADMIN_USER}" 
+    password="${VAULT_ADMIN_PW}"
 EOF
 p ""
 
@@ -16,8 +16,8 @@ vault write database/config/vices \
     plugin_name=postgresql-database-plugin \
     allowed_roles=full-read \
     connection_url="postgresql://{{username}}:{{password}}@${DB_HOST}:${DB_PORT}/vices?sslmode=disable" \
-    username="${DB_ADMIN_USER}" \
-    password="${DB_ADMIN_PW}"
+    username="${VAULT_ADMIN_USER}" \
+    password="${VAULT_ADMIN_PW}"
 
 
 

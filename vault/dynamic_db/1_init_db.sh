@@ -6,7 +6,7 @@ docker run \
   --name postgres \
   -p 5432:5432 \
   -e POSTGRES_PASSWORD=${DB_ADMIN_PW}  \
-  -v /Users/jake/git/demos/vault/dynamic_database/sql:/docker-entrypoint-initdb.d \
+  -v ${PWD}/sql:/docker-entrypoint-initdb.d \
   -d postgres
 
 
@@ -18,3 +18,8 @@ docker run  \
   -e "PGADMIN_DEFAULT_EMAIL=jlundberg@hashicorp.com" \
   -e "PGADMIN_DEFAULT_PASSWORD=${DB_ADMIN_PW}" \
   -d dpage/pgadmin4
+
+
+echo "Connect to http://${DB_HOST}:8888 for the pgadmin web UI"
+
+echo "Database is running on ${DB_HOST}:5432"
