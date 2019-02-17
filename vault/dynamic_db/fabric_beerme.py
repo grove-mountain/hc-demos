@@ -29,7 +29,6 @@ def get_secret(path, vault_addr=VAULT_ADDR, vault_token=VAULT_TOKEN):
     response = requests.get(url, headers=headers)
     return response.json()
 
-
 def query_postgres(host, user, password,
                    port=5432, dbname=None, query="select current_user"):
     """Login and perform a query against a postgres database
@@ -47,11 +46,13 @@ def query_postgres(host, user, password,
     return records
 
 @task
-def get_beer(host=DB_HOST, port=DB_PORT, dbname='vices', vault_role="full-read"):
+def get_beer(host=DB_HOST, port=DB_PORT, dbname='vices',
+             vault_role="full-read", username=None, password=None):
     """Does a query against the beer table and displays some delicious beer
     facts
     """
-    username,password=get_db_creds(vault_role)
+    if not (username and password):
+        username,password=get_db_creds(vault_role)
     query="select * from beer"
     records = query_postgres(host=host,
                              port=port,
