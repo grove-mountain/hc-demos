@@ -2,4 +2,4 @@
 *.tfstate.backup
 *.swp
 *.dynamic_creds
-*/.terraform
+.terraform/
