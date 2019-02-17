@@ -15,3 +15,5 @@ This runs a local copy of Postgres and PGAdmin for the database and a GUI to sho
 ## Usage
 
 Run the numbered scripts in order.  These use demo-magic, so when you'll need to hit return after each command.
+
+Use teardown.sh to bring down the docker containers or just kill them by hand.
