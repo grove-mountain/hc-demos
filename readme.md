@@ -1,3 +1,3 @@
 # Demos
 
-Yep, it's where demos live.  These should probably eventually be moved to other areas.
+A collection of demonstration tools.   If you make changes that would make sense for more than yourself, please fork this repo and submit pull requests back into it.   
