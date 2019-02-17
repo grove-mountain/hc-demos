@@ -4,9 +4,9 @@ Helper scripts and tools for running demos.
 
 ## Demo Magic
 
-This is a minor fork of: https://github.com/paxtonhare/demo-magic
+This is a minor fork of: https://github.com/paxtonhare/demo-magic.  See this repo for more indepth information on using this tool.
 
-The updates add in things like colors and preventing the script from failing if some of the prerequisites like pv aren't installed.   Since when I'm running demos I don't really care if someone thinks I'm actually typing, I normally turn that feature off.   
+The updates add in things like color functions and preventing the script from failing if some of the prerequisites like pv aren't installed.   Since when I'm running demos I don't really care if someone thinks I'm actually typing, I normally turn that feature off.   
 
 Typically inside an env.sh file for any demo I'll put the following:
 
@@ -49,6 +49,8 @@ vault write database/config/vices
     username="${VAULT_ADMIN_USER}"
     password="${VAULT_ADMIN_PW}"
 EOF
+
+# This is just here to wait until the user hits a key to move forward
 p ""
 
 vault write database/config/vices \
