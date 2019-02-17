@@ -1,0 +1,11 @@
+# Copy this file to ~/.vault_env
+
+# Get you current IP Address
+export IP_ADDRESS=$(hostname -I)
+export VAULT_ADDR="http://${IP_ADDRESS}:8200"
+# This has a default token, but can be overridden by environment variable if desired
+export VAULT_TOKEN=${VAULT_TOKEN:-"ultra-secure"}
+
+# Dev server environment variables
+export VAULT_DEV_LISTEN_ADDRESS="${IP_ADDRESS}:8200"
+export VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}
