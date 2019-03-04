@@ -1,7 +1,8 @@
 . env.sh
 rm payload.json
 
-green "This is mainly due to the fact secret will not be mount by default in the future.  Plan accordingly"
+yellow "This is will fail now, but in the future, secret KV will not be enabled by default."
+green "Please plan accordingly"
 
 pe "vault secrets enable -path=secret -version=2 kv"
 
