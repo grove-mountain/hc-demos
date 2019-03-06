@@ -1,0 +1,22 @@
+{
+  "Name": "jlundberg-vault-admin",
+  "IsCustom": true,
+  "Description": "Vault Azure Secret Engine Custom Role",
+  "Actions": [
+    "Microsoft.Storage/*/read",
+    "Microsoft.Network/*/read",
+    "Microsoft.Compute/*/read",
+    "Microsoft.Compute/virtualMachines/start/action",
+    "Microsoft.Compute/virtualMachines/restart/action",
+    "Microsoft.Authorization/*/read",
+    "Microsoft.Resources/subscriptions/resourceGroups/read",
+    "Microsoft.Insights/alertRules/*",
+    "Microsoft.Support/*"
+  ],
+  "NotActions": [
+
+  ],
+  "AssignableScopes": [
+    "/subscriptions/c0a607b2-6372-4ef3-abdb-dbe52a7b56ba"
+  ]
+}
