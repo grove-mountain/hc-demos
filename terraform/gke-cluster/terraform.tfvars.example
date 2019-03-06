@@ -1,0 +1,6 @@
+cluster_name      = "consul-connect-demo"
+gcp_region        = "us-west1"
+gcp_zone          = "us-west1-a"
+gcp_project       = "jlundberg-demo"
+node_pool_count   = 3
+node_machine_type = "g1-small"
