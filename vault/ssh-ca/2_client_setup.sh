@@ -23,5 +23,8 @@ vault write -format=json ssh-client-signer/sign/clientrole public_key=@${HOME}/.
 
 pe "chmod 0400 /home/vagrant/.ssh/id_rsa-cert.pub"
 
+yellow "When you're getting ghost authentication failures that don't make any sense.  It's probably ssh-add"
+pe "ssh-add"
+
 echo "To use the new cert you can use the following command"
 echo "ssh vault.hashidemos.com"

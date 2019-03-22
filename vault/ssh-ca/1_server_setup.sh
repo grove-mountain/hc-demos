@@ -23,6 +23,8 @@ echo "@cert-authority *.hashidemos.com \$(cat ${HOME}/host_CA_certificate_raw)" 
 EOF
 p
 
+echo "@cert-authority *.hashidemos.com $(cat ${HOME}/host_CA_certificate_raw)" > ${HOME}/CA_certificate
+
 green "Add the CA to known hosts"
 pe "cat ${HOME}/CA_certificate >> ${HOME}/.ssh/known_hosts"
 
@@ -73,7 +75,7 @@ p
 vault write -f -format=json ssh-client-signer/config/ca | \
   jq -r '.data.public_key' >>  ${HOME}/trusted-user-ca-keys.pem
 
-pe "sudo mv /home/vagrant/trusted-user-ca-keys.pem /etc/ssh/trusted-user-ca-keys.pem"
+pe "sudo mv ${HOME}/trusted-user-ca-keys.pem /etc/ssh/trusted-user-ca-keys.pem"
 
 
 cat << EOF
@@ -87,8 +89,10 @@ echo '
       }
     ],
     "key_type": "ca",
+    "key_bits": "2048",
     "key_id_format": "vault-{{role_name}}-{{token_display_name}}-{{public_key_hash}}",
     "default_user": "vagrant",
+    "max_ttl": "24h",
     "ttl": "30m0s"
   }' >> /home/vagrant/clientrole.json
 EOF
@@ -104,14 +108,16 @@ echo '
       }
     ],
     "key_type": "ca",
+    "key_bits": "2048",
     "key_id_format": "vault-{{role_name}}-{{token_display_name}}-{{public_key_hash}}",
     "default_user": "vagrant",
+    "max_ttl": "24h",
     "ttl": "30m0s"
-  }' >> /home/vagrant/clientrole.json
+  }' >> ${HOME}/clientrole.json
 
 
 # Create a role to sign client keys
-pe "vault write ssh-client-signer/roles/clientrole @/home/vagrant/clientrole.json"
+pe "vault write ssh-client-signer/roles/clientrole @${HOME}/clientrole.json"
 
 green "Configure the SSH Daemon with user ca keys and host keys"
 cat << EOF
@@ -139,4 +145,5 @@ green "Setup policy and LDAP group to allow SSH Access"
 yellow "You need to actually setup LDAP Auth First Jake!"
 p
 pe "vault policy write ssh-user ./ssh-user-policy.hcl"
+pe "vault policy read ssh-user"
 pe "vault write auth/ldap-um/groups/solutions_engineering policies=se_full,pro_svcs_read,ssh-user"
