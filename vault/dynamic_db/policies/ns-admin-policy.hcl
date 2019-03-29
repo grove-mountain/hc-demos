@@ -28,10 +28,23 @@ path "sys/auth"
   capabilities = ["read"]
 }
 
-# Create and manage ACL policies via CLI
+# To list policies
+path "sys/policy"
+{
+  capabilities = ["read"]
+}
+
+# To manage policies
 path "sys/policy/*"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
+
+# Create and manage policies via API
+# These policy blocks allow for newer (>0.9) policy management.
+path "sys/policies/*"
+{
+  capabilities = ["create", "read", "update", "delete", "list"]
 }
 
 # Create and manage ACL policies via API
@@ -50,12 +63,6 @@ path "sys/policies/egp/*"
 path "sys/policies/rgp/*"
 {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# To list policies
-path "sys/policy"
-{
-  capabilities = ["read"]
 }
 
 # Capabilities
