@@ -19,15 +19,15 @@ green "We need to add a role to allow the Azure auth to assign a policy"
 cat << EOF
 vault write auth/azure/role/transit-db-pii
   policies=transit-db-pii
-  bound_subscription_ids=\${azure_subscription_id}
-  bound_resource_groups=\${azure_resource_group}
+  bound_subscription_ids=\${AZURE_SUBSCRIPTION_ID}
+  bound_resource_groups=\${AZURE_RESOURCE_GROUP}
 EOF
 p ""
 
 vault write auth/azure/role/transit-db-pii \
   policies=transit-db-pii \
-  bound_subscription_ids=${azure_subscription_id} \
-  bound_resource_groups=${azure_resource_group}
+  bound_subscription_ids=${AZURE_SUBSCRIPTION_ID} \
+  bound_resource_groups=${AZURE_RESOURCE_GROUP}
 
 p
 green "Re-iterating the process of using Azure Auth"
@@ -49,16 +49,16 @@ green "Authenticating to Vault using MSI"
 cat << EOF
 export VAULT_TOKEN=\$(vault write -field=token auth/azure/login role="transit-db-pii"
      jwt=\${jwt}
-     subscription_id=\${azure_subscription_id}
-     resource_group_name=\${azure_resource_group}
+     subscription_id=\${AZURE_SUBSCRIPTION_ID}
+     resource_group_name=\${AZURE_RESOURCE_GROUP}
      vm_name=\${vm_name})
 EOF
 p ""
 
 export VAULT_TOKEN=$(vault write -field=token auth/azure/login role="transit-db-pii" \
      jwt=$jwt \
-     subscription_id=${azure_subscription_id} \
-     resource_group_name=${azure_resource_group} \
+     subscription_id=${AZURE_SUBSCRIPTION_ID} \
+     resource_group_name=${AZURE_RESOURCE_GROUP} \
      vm_name=${vm_name})
 
 p
