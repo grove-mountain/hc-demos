@@ -7,12 +7,11 @@ Azure resources were launched using a fork of Sean Carolan's excellent work loca
 The code is linked up here under the terraform/ directory.
 
 Useful links related to this webinar/blog:
-https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest
-
-https://github.com/hashicorp/vault-guides/tree/master/secrets/azure-secret
-
-https://www.vaultproject.io/docs/auth/azure.html
-
+ * https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest
+ * https://github.com/hashicorp/vault-guides/tree/master/secrets/azure-secret
+ * https://www.vaultproject.io/docs/auth/azure.html
+ * https://www.terraform.io/ 
+ * https://learn.hashicorp.com/terraform/
 
 All of the example code here is run from Bash command line, but can be translated to any shell. 
 
@@ -26,6 +25,8 @@ cd hc-demos/vault/azure_secret_sprawl_webinar/terraform
 
 Terraform is a cloud agnostic infrastructure provisioning tool.   It has the ability to launch resources in all the major cloud providers using a common, easy-to-use language called HashiCorp Configuration Language (HCL).   It also allows people to share re-useable code to easily launch environments for demos like this.
 
+If you're new to Terraform, please visit the following page to help you get setup: https://learn.hashicorp.com/terraform/getting-started/install.html
+
 This code will help you stand up resources in Azure for this demo.   We highly encourage you to destroy the environment after running this demo.   The code will allow you to easily recreate it later.
 
 
@@ -36,7 +37,7 @@ This code will help you stand up resources in Azure for this demo.   We highly e
  * Plan Terraform
  * Apply Terraform
 
-This file only contains the name prefix for the project and should be descriptive in the event you're running many resource groups in Azure.  Also contained is the admin_password.   If default passwords aren't your thing, uncomment and change this as well.
+The terraform.tfvars file contains actual values for any variables that need to be instantiated.   In this case, the prefix variable for the project and should be descriptive in the event you're running many resource groups in Azure.  Also contained is the admin_password.   If default passwords aren't your thing, uncomment and change this as well.
 
 e.g.
 ```
@@ -56,10 +57,8 @@ Terraform plan displays all the resources it plans on creating. It's a good prac
 terraform apply -auto-approve
 ```
 
-This can take 8-20m on Azure to create all necessary resources.   This is a great time to have a coffee break and read up on some of the Useful Links supplied above or the following:
+This can take 8-20m on Azure to create all necessary resources.   This is a great time to have a coffee break and read up on some of the Useful Links supplied above:
 
- * https://www.terraform.io/ 
- * https://learn.hashicorp.com/terraform/
 
 When Terraform is finished running, it's going to output some data like:
 
