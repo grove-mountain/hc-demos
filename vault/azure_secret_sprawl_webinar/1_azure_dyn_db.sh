@@ -152,5 +152,6 @@ vault read -format=json db-mysql/creds/beer-read-long \
   |  sed -e 's/^/export /' \
   | tee .db_creds
 
+green "Source those credentials and then run a select statement using them"
 pe ". .db_creds"
 pe "mysql --table -h ${MYSQL_HOST_FULL} -D ${MYSQL_DATABASE} -u ${username}@${MYSQL_HOST} --password=${password} < select_beer.sql"
