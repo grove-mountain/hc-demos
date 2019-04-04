@@ -28,15 +28,19 @@ vault login ${ROOT_TOKEN} &> /dev/null
 pe "TOKEN=\$(vault token create -field=token -policy=kv-beer)"
 pe "vault login ${TOKEN}"
 
+green "Always test for success and failure conditions"
 pe "vault kv get secret/db1/beer/read-only"
 pe "vault kv get secret/db1/finance/read-only"
 pe "vault kv get secret/hitchhikers/drinks/best"
+
+
 
 unset VAULT_TOKEN
 vault login ${ROOT_TOKEN} &> /dev/null
 green "VAULT_TOKEN is an envvar read by vault can can save you a step"
 pe "export VAULT_TOKEN=\$(vault token create -field=token -policy=kv-finance)"
 
+green "Always test for success and failure conditions"
 pe "vault kv get secret/db1/beer/read-only"
 pe "vault kv get secret/db1/finance/read-only"
 pe "vault kv get secret/hitchhikers/drinks/best"
@@ -48,6 +52,7 @@ green "You can also attach multiple policies to one auth method."
 green "This enables code re-use"
 pe "export VAULT_TOKEN=\$(vault token create -field=token -policy=kv-finance -policy=kv-beer)"
 
+green "Always test for success and failure conditions"
 pe "vault kv get secret/db1/beer/read-only"
 pe "vault kv get secret/db1/finance/read-only"
 pe "vault kv get secret/hitchhikers/drinks/best"
