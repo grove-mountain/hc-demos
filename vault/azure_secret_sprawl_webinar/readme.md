@@ -50,7 +50,13 @@ terraform init
 terraform plan
 ```
 
-Terraform plan displays all the resources it plans on creating. It's a good practice to review what is going to be created and verify the work you'd expect.   If you're new to Infrastructure as Code, this may be more informational than anything.   Once reviewed, apply the code.   This can take 8-10m on Azure to create all necessary resources.   This is a great time to have a coffee break and read up on some of the Useful Links supplied above or the following:
+Terraform plan displays all the resources it plans on creating. It's a good practice to review what is going to be created and verify the work you'd expect.   If you're new to Infrastructure as Code, this may be more informational than anything.   Once reviewed, apply the code.  
+
+```
+terraform apply -auto-approve
+```
+
+This can take 8-20m on Azure to create all necessary resources.   This is a great time to have a coffee break and read up on some of the Useful Links supplied above or the following:
 
  * https://www.terraform.io/ 
  * https://learn.hashicorp.com/terraform/
