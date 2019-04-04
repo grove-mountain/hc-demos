@@ -153,4 +153,4 @@ vault read -format=json db-mysql/creds/beer-read-long \
   | tee .db_creds
 
 pe ". .db_creds"
-p "mysql -h \${MYSQL_HOST_FULL} -D \${MYSQL_DATABASE} -u \${username}@\${MYSQL_HOST} --password=\${password}"
+p "mysql -h \${MYSQL_HOST_FULL} -D \${MYSQL_DATABASE} -u \${username}@\${MYSQL_HOST} --password=\${password} < select_beer.sql"
