@@ -97,12 +97,22 @@ ssh-keygen -R jlundberg.centralus.cloudapp.azure.com
 
 ## Run the online demos
 
-Change directory to the demo directory on the system
-```
-cd hc-demos/vault/azure_secret_sprawl_webinar
-```
+For the generic K/V demo, change to the KV demo directory and run the demo files:
 
 Run each demo script.   These use Demo Magic, meaning all you have to do is run the script and hit RETURN at each step.  Keep hitting RETURN until the demo is finished.
+```
+cd ~/hc-demos/vault/kv
+./1_basic_ops.sh
+./2_install_policies.sh
+./3_policy_scoped_tokens.sh
+./4_secret_mount_points.sh
+```
+
+Change directory to the demo directory on the system
+```
+cd ~/hc-demos/vault/azure_secret_sprawl_webinar
+```
+
 
 This demo shows you the power of using both AD/MSI authentication as well as dynamic database credentials.
 ```
@@ -113,5 +123,3 @@ This demo shows you how to use the transit secret engine to encrypt/decrypt data
 ```
 ./2_transit.sh
 ```
-
-

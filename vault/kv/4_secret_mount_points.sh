@@ -15,7 +15,8 @@ unset VAULT_TOKEN
 vault login ultra-secure &> /dev/null
 pe "export VAULT_TOKEN=\$(vault token create -field=token -policy=kv-hitchhikers)"
 pe "vault kv get secret/db1/finance/read-only"
+yellow "What happens when this overly permissive scoped token tries to access data in another secret mount point?"
 pe "vault kv get kv-finance/db1/read-only"
 pe "vault kv get secret/../kv-finance/db1/read-only"
 
-
+yellow "Those last two failed because the token created only has access to secret/* path."
