@@ -2,11 +2,11 @@
 
 The main purpose of this webinar was to demonstrate how to eliminate secret sprawl with Vault.   Basic K/V demo was used locally, and then patterns for Azure Auth login via MSI assigned to the image were used for these examples.
 
-Azure resources were launched using Terraform code at: https://github.com/grove-mountain/azure-terraform-vault-workshop.git.   This is a fork of Sean Carolan's excellent work located at https://github.com/scarolan/azure-terraform-vault-workshop.   It's been modified to add in Service Principals for doing Azure Auth into Vault.   
+Azure resources were launched using a fork of Sean Carolan's excellent work located at https://github.com/scarolan/azure-terraform-vault-workshop.   It's been modified to add in Service Principals for doing Azure Auth into Vault.   
 
-The code is actually linked up here under the terraform/ directory.
+The code is linked up here under the terraform/ directory.
 
-Useful links:
+Useful links related to this webinar/blog:
 https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest
 
 https://github.com/hashicorp/vault-guides/tree/master/secrets/azure-secret
@@ -28,7 +28,6 @@ Terraform is a cloud agnostic infrastructure provisioning tool.   It has the abi
 
 This code will help you stand up resources in Azure for this demo.   We highly encourage you to destroy the environment after running this demo.   The code will allow you to easily recreate it later.
 
-See: https://www.terraform.io/ and https://learn.hashicorp.com/terraform/ for more indepth information on Terraform.   
 
  * Create the terraform.tfvars file.  
  * Change "prefix" to a descriptive name
@@ -51,7 +50,10 @@ terraform init
 terraform plan
 ```
 
-Terraform plan displays all the resources it plans on creating. It's a good practice to review what is going to be created and verify the work you'd expect.   If you're new to Infrastructure as Code, this may be more informational than anything.   Once reviewed, apply the code.   This can take 8-10m on Azure to create all necessary resources.   This is a great time to have a coffee break and read up on some of the Useful Links supplied above.
+Terraform plan displays all the resources it plans on creating. It's a good practice to review what is going to be created and verify the work you'd expect.   If you're new to Infrastructure as Code, this may be more informational than anything.   Once reviewed, apply the code.   This can take 8-10m on Azure to create all necessary resources.   This is a great time to have a coffee break and read up on some of the Useful Links supplied above or the following:
+
+ * https://www.terraform.io/ 
+ * https://learn.hashicorp.com/terraform/
 
 When Terraform is finished running, it's going to output some data like:
 
@@ -116,4 +118,15 @@ This demo shows you the power of using both AD/MSI authentication as well as dyn
 This demo shows you how to use the transit secret engine to encrypt/decrypt data stored at rest.
 ```
 ./2_transit.sh
+```
+
+
+## Destroy your terraform resources
+
+Once done, exit out of the bastion host and destroy your resources.  This will automatically tear down anything created for this demo saving you the effort of deleting these resources by hand and saving money in the long run as well.  
+
+```
+exit
+
+terraform destroy
 ```
