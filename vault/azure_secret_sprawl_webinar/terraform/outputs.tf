@@ -9,26 +9,6 @@
 # demo environment.
 #
 
-output "azure_tenant_id" {
-    value = "${data.azurerm_client_config.current.tenant_id}"
-}
-
-output "azure_subscription_id" {
-    value = "${data.azurerm_client_config.current.subscription_id}"
-}
-
-output "azure_application_id" {
-    value = "${azuread_application.vaultapp.application_id}"
-}
-
-output "azure_sp_password" {
-    value = "${azuread_service_principal_password.vaultapp.value}"
-}
-
-output "azure_resource_group" {
-    value = "${azurerm_resource_group.vaultworkshop.name}"
-}
-
 output "Vault_Server_URL" {
     value = "http://${azurerm_public_ip.vault-pip.fqdn}:8200"
 }
