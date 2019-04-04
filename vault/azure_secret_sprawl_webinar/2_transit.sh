@@ -68,6 +68,7 @@ pe "export SSN='123-45-6789'"
 pe "enc_ssn=\$(vault write -field=ciphertext transit/encrypt/db-pii plaintext=\$(base64 <<< ${SSN}))"
 
 green "Notice the v1 in the key below, this can be used for key rolling by version"
+yellow "The select statement below is merely for showing what a statement looks like, no DB updates are being made"
 cat << EOF
 INSERT INTO characters VALUES
 (${NAME}, ${enc_ssn});
@@ -78,6 +79,7 @@ pe "export NAME='Jacob Keyes'"
 pe "export SSN='321-45-6789'"
 pe "enc_ssn=\$(vault write -field=ciphertext transit/encrypt/db-pii plaintext=\$(base64 <<< ${SSN}))"
 
+yellow "The select statement below is merely for showing what a statement looks like, no DB updates are being made"
 cat << EOF
 INSERT INTO characters VALUES
 (${NAME}, ${enc_ssn});
@@ -89,6 +91,7 @@ pe "export NAME='Avery Johnson'"
 pe "export SSN='987-65-4321'"
 pe "enc_ssn=\$(vault write -field=ciphertext transit/encrypt/db-pii plaintext=\$(base64 <<< ${SSN}))"
 
+yellow "The select statement below is merely for showing what a statement looks like, no DB updates are being made"
 cat << EOF
 INSERT INTO characters VALUES
 (${NAME}, ${enc_ssn});
