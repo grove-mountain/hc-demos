@@ -78,3 +78,13 @@ variable "admin_password" {
   description = "Administrator password for linux and mysql"
   default     = "Password123!"
 }
+
+variable "mysql_database" {
+  description = "Database name for the default mysql database"
+  default = "wsmysqldatabase"
+}
+
+variable "vault_token" {
+  description = "Vault dev server token used for root authentication"
+  default = "root"
+}

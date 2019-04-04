@@ -2,3 +2,4 @@
 # Prefix must be all lowercase letters, no symbols please.
 
 prefix = "yourname"
+# admin_password = "ThisPasswordDoesNotSuckAsBad42"

@@ -8,17 +8,17 @@ pe "vault auth enable azure"
 green "Azure auth needs a service principle to actually verify logins from other service principles"
 cat << EOF
 vault write auth/azure/config
-  tenant_id=\${azure_tenant_id}
+  tenant_id=\${AZURE_TENANT_ID}
   resource=https://management.azure.com
-  client_id=\${azure_application_id}
-  client_secret=\${azure_sp_password}
+  client_id=\${AZURE_APPLICATION_ID}
+  client_secret=\${AZURE_SP_PASSWORD}
 EOF
 p ""
 vault write auth/azure/config \
-  tenant_id=${azure_tenant_id} \
+  tenant_id=${AZURE_TENANT_ID} \
   resource=https://management.azure.com \
-  client_id=${azure_application_id} \
-  client_secret=${azure_sp_password}
+  client_id=${AZURE_APPLICATION_ID} \
+  client_secret=${AZURE_SP_PASSWORD}
 
 green "Write policies that will be consumed by roles"
 pe "vault policy write db-full-read ./db-full-read-policy.hcl"
@@ -28,15 +28,15 @@ green "Create the role tied to the policy or policies defined"
 cat << EOF
 vault write auth/azure/role/db-full-read
   policies=db-full-read
-  bound_subscription_ids=\${azure_subscription_id}
-  bound_resource_groups=\${azure_resource_group}
+  bound_subscription_ids=\${AZURE_SUBSCRIPTION_ID}
+  bound_resource_groups=\${AZURE_RESOURCE_GROUP}
 EOF
 p ""
 
 vault write auth/azure/role/db-full-read \
   policies=db-full-read \
-  bound_subscription_ids=${azure_subscription_id} \
-  bound_resource_groups=${azure_resource_group}
+  bound_subscription_ids=${AZURE_SUBSCRIPTION_ID} \
+  bound_resource_groups=${AZURE_RESOURCE_GROUP}
 
 green "You need to use the following variables when you or your applications login to Vault using a Service Principle.  This is merely highlighting the process"
 
@@ -121,16 +121,16 @@ green "Actually login to Vault using the Azure MSI information"
 cat << EOF
 export VAULT_TOKEN=\$(vault write -field=token auth/azure/login role="db-full-read"
      jwt=\${jwt}
-     subscription_id=\${azure_subscription_id}
-     resource_group_name=\${azure_resource_group}
+     subscription_id=\${AZURE_SUBSCRIPTION_ID}
+     resource_group_name=\${AZURE_RESOURCE_GROUP}
      vm_name=\${vm_name})
 EOF
 p ""
 
 export VAULT_TOKEN=$(vault write -field=token auth/azure/login role="db-full-read" \
      jwt=$jwt \
-     subscription_id=${azure_subscription_id} \
-     resource_group_name=${azure_resource_group} \
+     subscription_id=${AZURE_SUBSCRIPTION_ID} \
+     resource_group_name=${AZURE_RESOURCE_GROUP} \
      vm_name=${vm_name})
 
 green "Generate a few short lived credentials"

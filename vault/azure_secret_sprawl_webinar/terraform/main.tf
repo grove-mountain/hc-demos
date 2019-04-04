@@ -2,6 +2,10 @@ provider "azurerm" {
   version = "~> 1.22"
 }
 
+provider "azuread" {
+  version = "~>0.1.0"
+}
+
 resource "random_id" "project_name" {
   byte_length = 4
 }
@@ -163,7 +167,18 @@ resource "azurerm_virtual_machine" "vault" {
     inline = [
       "chmod +x /home/${var.admin_username}/*.sh",
       "sleep 30",
-      "MYSQL_HOST=${var.prefix}-mysql-server /home/${var.admin_username}/setup.sh"
+      "MYSQL_HOST=${var.prefix}-mysql-server \
+       MYSQL_HOST_FULL=${MYSQL_HOST}.mysql.database.azure.com \
+       MYSQL_DATABASE=${var.mysql_database} \
+       MYSQL_VAULT_USER=${var.admin_username} \
+       MYSQL_VAULT_PASSWORD=${var.admin_password} \
+       AZURE_SUBSCRIPTION_ID=${data.azurerm_client_config.current.subscription_id} \
+       AZURE_RESOURCE_GROUP=${azurerm_resource_group.vaultworkshop.name} \
+       AZURE_TENANT_ID=${data.azurerm_client_config.current.tenant_id} \
+       AZURE_APPLICATION_ID=${azuread_application.vaultapp.application_id} \
+       AZURE_SP_PASSWORD=${azuread_service_principal_password.vaultapp.value} \
+       VAULT_TOKEN=${var.vault_token} \
+       /home/${var.admin_username}/setup.sh"
     ]
 
     connection {
@@ -223,16 +238,16 @@ resource "azurerm_mysql_firewall_rule" "vault-mysql" {
 }
 
 
-resource "azurerm_azuread_application" "vaultapp" {
+resource "azuread_application" "vaultapp" {
   name = "${var.prefix}-${random_id.project_name.hex}-vaultapp"
 }
 
-resource "azurerm_azuread_service_principal" "vaultapp" {
-  application_id = "${azurerm_azuread_application.vaultapp.application_id}"
+resource "azuread_service_principal" "vaultapp" {
+  application_id = "${azuread_application.vaultapp.application_id}"
 }
 
-resource "azurerm_azuread_service_principal_password" "vaultapp" {
-  service_principal_id = "${azurerm_azuread_service_principal.vaultapp.id}"
+resource "azuread_service_principal_password" "vaultapp" {
+  service_principal_id = "${azuread_service_principal.vaultapp.id}"
   value                = "${random_id.client_secret.id}"
   end_date             = "2020-01-01T01:02:03Z"
   depends_on           = ["azurerm_role_assignment.role_assignment"]
@@ -258,15 +273,15 @@ data "azurerm_subscription" "subscription" {}
 
 data "azurerm_client_config" "current" {}
 
-data "azurerm_builtin_role_definition" "builtin_role_definition" {
+data "azurerm_role_definition" "builtin_role_definition" {
   name = "Contributor"
 }
 
 # Grant the VM identity contributor rights to the current subscription
 resource "azurerm_role_assignment" "role_assignment" {
   scope              = "${data.azurerm_subscription.subscription.id}"
-  role_definition_id = "${data.azurerm_subscription.subscription.id}${data.azurerm_builtin_role_definition.builtin_role_definition.id}"
-  principal_id       = "${azurerm_azuread_service_principal.vaultapp.id}"
+  role_definition_id = "${data.azurerm_subscription.subscription.id}${data.azurerm_role_definition.builtin_role_definition.id}"
+  principal_id       = "${azuread_service_principal.vaultapp.id}"
 
   lifecycle {
     ignore_changes = ["name"]

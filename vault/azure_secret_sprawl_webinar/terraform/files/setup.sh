@@ -18,7 +18,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/root
-ExecStart=/usr/local/bin/vault server -dev -dev-root-token-id=root -dev-listen-address=0.0.0.0:8200
+ExecStart=/usr/local/bin/vault server -dev -dev-root-token-id=${VAULT_TOKEN} -dev-listen-address=0.0.0.0:8200
 Restart=on-failure # or always, on-abort, etc
 
 [Install]
@@ -29,6 +29,16 @@ sudo systemctl start vault
 
 echo "Setting up environment variables..."
 echo "export VAULT_ADDR=http://localhost:8200" >> $HOME/.bashrc
-echo "export VAULT_TOKEN=root" >> $HOME/.bashrc
+echo "export VAULT_TOKEN=${VAULT_TOKEN}" >> $HOME/.bashrc
+echo "export AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}" >> $HOME/.bashrc
+echo "export AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP}" >> $HOME/.bashrc
+echo "export AZURE_TENANT_ID=${AZURE_TENANT_ID}" >> $HOME/.bashrc
+echo "export AZURE_APPLICATION_ID=${AZURE_APPLICATION_ID}" >> $HOME/.bashrc
+echo "export AZURE_SP_PASSWORD=${AZURE_SP_PASSWORD}" >> $HOME/.bashrc
 echo "export MYSQL_HOST=${MYSQL_HOST}" >> $HOME/.bashrc
+echo "export MYSQL_HOST_FULL=${MYSQL_HOST}.mysql.database.azure.com" >> $HOME/.bashrc
+echo "export MYSQL_DATABASE=${MYSQL_DATABASE}" >> $HOME/.bashrc
+echo "export MYSQL_VAULT_USER=${MYSQL_VAULT_USER}" >> $HOME/.bashrc
+echo "export MYSQL_VAULT_PASSWORD=${MYSQL_VAULT_PASSWORD}" >> $HOME/.bashrc
+
 echo "Vault installation complete."

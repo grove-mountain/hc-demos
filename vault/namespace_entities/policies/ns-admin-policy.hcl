@@ -1,4 +1,7 @@
-path 
+path "*"
+{
+  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+}
 
 # Manage auth methods broadly across Vault
 path "auth/*"

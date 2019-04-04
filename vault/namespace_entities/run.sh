@@ -59,10 +59,10 @@ pe "vault policy write kv-jake policies/kv-jake-policy.hcl"
 #        name="SE Admin" \
 #        policies="ns-admin,kv-full,kv-jake" \
 #        member_group_ids=$(cat se_group_id.txt)
-#pe "unset VAULT_NAMESPACE"
-#pe "vault login -method=ldap -path=ldap-um username=jlundberg password=\${USER_PASSWORD}"
-#pe "export VAULT_NAMESPACE=solutions_engineering"
-#pe "vault kv put kv-jake/beer favorite='Anchor Cali Lager'"
+pe "unset VAULT_NAMESPACE"
+pe "vault login -method=ldap -path=ldap-um username=jlundberg password=\${USER_PASSWORD}"
+pe "export VAULT_NAMESPACE=solutions_engineering"
+pe "vault kv put kv-jake/beer favorite='Anchor Cali Lager'"
 
 
 #vault namespace create vault_education

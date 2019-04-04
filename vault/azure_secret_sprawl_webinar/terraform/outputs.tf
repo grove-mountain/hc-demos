@@ -18,11 +18,11 @@ output "azure_subscription_id" {
 }
 
 output "azure_application_id" {
-    value = "${azurerm_azuread_application.vaultapp.application_id}"
+    value = "${azuread_application.vaultapp.application_id}"
 }
 
 output "azure_sp_password" {
-    value = "${azurerm_azuread_service_principal_password.vaultapp.value}"
+    value = "${azuread_service_principal_password.vaultapp.value}"
 }
 
 output "azure_resource_group" {
