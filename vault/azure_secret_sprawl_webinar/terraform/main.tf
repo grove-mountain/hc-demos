@@ -167,18 +167,7 @@ resource "azurerm_virtual_machine" "vault" {
     inline = [
       "chmod +x /home/${var.admin_username}/*.sh",
       "sleep 30",
-      "MYSQL_HOST=${var.prefix}-mysql-server \
-       MYSQL_HOST_FULL=${MYSQL_HOST}.mysql.database.azure.com \
-       MYSQL_DATABASE=${var.mysql_database} \
-       MYSQL_VAULT_USER=${var.admin_username} \
-       MYSQL_VAULT_PASSWORD=${var.admin_password} \
-       AZURE_SUBSCRIPTION_ID=${data.azurerm_client_config.current.subscription_id} \
-       AZURE_RESOURCE_GROUP=${azurerm_resource_group.vaultworkshop.name} \
-       AZURE_TENANT_ID=${data.azurerm_client_config.current.tenant_id} \
-       AZURE_APPLICATION_ID=${azuread_application.vaultapp.application_id} \
-       AZURE_SP_PASSWORD=${azuread_service_principal_password.vaultapp.value} \
-       VAULT_TOKEN=${var.vault_token} \
-       /home/${var.admin_username}/setup.sh"
+      "MYSQL_HOST=${var.prefix}-mysql-server MYSQL_HOST_FULL=$${MYSQL_HOST}.mysql.database.azure.com MYSQL_DATABASE=${var.mysql_database} MYSQL_VAULT_USER=${var.admin_username} MYSQL_VAULT_PASSWORD=${var.admin_password} AZURE_SUBSCRIPTION_ID=${data.azurerm_client_config.current.subscription_id} AZURE_RESOURCE_GROUP=${azurerm_resource_group.vaultworkshop.name} AZURE_TENANT_ID=${data.azurerm_client_config.current.tenant_id} AZURE_APPLICATION_ID=${azuread_application.vaultapp.application_id} AZURE_SP_PASSWORD=${azuread_service_principal_password.vaultapp.value} VAULT_TOKEN=${var.vault_token} /home/${var.admin_username}/setup.sh"
     ]
 
     connection {
@@ -216,7 +205,7 @@ resource "azurerm_mysql_server" "mysql" {
 }
 
 resource "azurerm_mysql_database" "wsmysqldatabase" {
-  name                = "wsmysqldatabase"
+  name                = "${var.mysql_database}"
   resource_group_name = "${azurerm_resource_group.vaultworkshop.name}"
   server_name         = "${azurerm_mysql_server.mysql.name}"
   charset             = "utf8"
