@@ -67,12 +67,6 @@ _Instructions =
  # other SSH client. Your password is: Password123!
 
  ssh hashicorp@jlundberg.centralus.cloudapp.azure.com
-
-azure_application_id = 3afa5e1a-84ba-43d2-abed-2fd414563382
-azure_resource_group = jlundberg-vault-workshop
-azure_sp_password = m49lxfh2TzlZDkC4rtf6T0QnJypTGfrW6zFMmjIcf44
-azure_subscription_id = 8708baf2-0a54-4bb4-905b-78d21ac150da
-azure_tenant_id = 0e3e2e88-8caf-41ca-b4da-e3b33b6c52ec
 ```
 
 ** WARNING **
