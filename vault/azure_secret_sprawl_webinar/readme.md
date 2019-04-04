@@ -102,7 +102,7 @@ cd ~/hc-demos/vault/kv
 ./4_secret_mount_points.sh
 ```
 
-Change directory to the demo directory on the system
+Change directory to the azure_secret_sprawl_webinar demo directory
 ```
 cd ~/hc-demos/vault/azure_secret_sprawl_webinar
 ```
