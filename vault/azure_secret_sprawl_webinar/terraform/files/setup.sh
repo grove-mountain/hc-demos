@@ -9,7 +9,7 @@ sudo unzip vault_1.0.1_linux_amd64.zip -d /usr/local/bin/
 
 # Set Vault up as a systemd service
 echo "Installing systemd service for Vault..."
-sudo bash -c "cat >/etc/systemd/system/vault.service" << 'EOF'
+sudo bash -c "cat >/etc/systemd/system/vault.service" << EOF
 [Unit]
 Description=Hashicorp Vault
 After=network.target
@@ -42,3 +42,11 @@ echo "export MYSQL_VAULT_USER=${MYSQL_VAULT_USER}" >> $HOME/.bashrc
 echo "export MYSQL_VAULT_PASSWORD=${MYSQL_VAULT_PASSWORD}" >> $HOME/.bashrc
 
 echo "Vault installation complete."
+
+echo "Installing code repo for demo"
+git clone git@github.com:grove-mountain/hc-demos.git
+export MYSQL_HOST_FULL=${MYSQL_HOST}.mysql.database.azure.com
+
+mysql -h ${MYSQL_HOST_FULL} -D ${MYSQL_DATABASE} -u ${MYSQL_VAULT_USER}@${MYSQL_HOST} --password=${MYSQL_VAULT_PASSWORD}
+
+
