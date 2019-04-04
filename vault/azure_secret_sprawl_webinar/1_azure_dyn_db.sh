@@ -1,9 +1,23 @@
 . env.sh
 
+green "Create the source table used in the examples below"
+
+cat << EOF
+mysql -h \${MYSQL_HOST_FULL}
+      -D \${MYSQL_DATABASE}
+      -u \${MYSQL_VAULT_USER}@\${MYSQL_HOST}
+      --password=\${MYSQL_VAULT_PASSWORD} < ~/hc-demos/vault/azure_secret_sprawl_webinar/terraform/files/create_beer_table.sql
+EOF
+p
+
+mysql -h ${MYSQL_HOST_FULL} \
+      -D ${MYSQL_DATABASE} \
+      -u ${MYSQL_VAULT_USER}@${MYSQL_HOST} \
+      --password=${MYSQL_VAULT_PASSWORD} < ~/hc-demos/vault/azure_secret_sprawl_webinar/terraform/files/create_beer_table.sql
+
+
 green "Enable the Azure auth method"
 pe "vault auth enable azure"
-
-
 
 green "Azure auth needs a service principle to actually verify logins from other service principles"
 cat << EOF

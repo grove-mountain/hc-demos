@@ -45,6 +45,3 @@ echo "Vault installation complete."
 
 echo "Installing code repo for demo"
 git clone https://github.com/grove-mountain/hc-demos.git
-export MYSQL_HOST_FULL=${MYSQL_HOST}.mysql.database.azure.com
-
-mysql -h ${MYSQL_HOST_FULL} -D ${MYSQL_DATABASE} -u ${MYSQL_VAULT_USER}@${MYSQL_HOST} --password=${MYSQL_VAULT_PASSWORD} < hc-demos/vault/azure_secret_sprawl_webinar/terraform/files/create_beer_table.sql
