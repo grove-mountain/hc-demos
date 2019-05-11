@@ -32,3 +32,4 @@ p
 vault write aws/roles/dynamo-db-read-only \
   policy_arns="${DYNAMODB_READ_ONLY_ARN}" \
   credential_type=iam_user
+  

@@ -5,6 +5,11 @@ path "secret/db1/finance/*"
 }
 
 # KV V2 Blanket Policies:
+path "secret/*"
+{
+  capabilities = ["list"]
+}
+
 
 # Allow full access to the current version of the secret
 path "secret/data/db1/finance/*"

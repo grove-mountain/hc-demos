@@ -77,18 +77,6 @@ path "sys/capabilities-self"
   capabilities = ["create", "update"]
 }
 
-# List, create, update, and delete key/value secrets
-path "secret/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
-# List, create, update, and delete key/value secrets
-path "kv/*"
-{
-  capabilities = ["create", "read", "update", "delete", "list", "sudo"]
-}
-
 # Manage secret engines broadly across Vault
 path "sys/mounts/*"
 {

@@ -4,3 +4,5 @@
 *.dynamic_creds
 *.pyc
 .terraform/
+vault/pki/certs/
+vault/pki/tmp/

@@ -1,6 +1,6 @@
 provider "google" {
   # This is janky, was having some issues getting my credentials via environment variables
-  credentials = "${var.gcp_credentials}"
+  # credentials = "${var.gcp_credentials}"
   project     = "${var.gcp_project}"
   region      = "${var.gcp_region}"
 }
