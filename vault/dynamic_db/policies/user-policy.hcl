@@ -1,3 +1,3 @@
-path "auth/userpass/users/{{identity.entity.aliases.auth_userpass_e0f7b756.name}}/password" {
+path "auth/userpass/users/{{identity.entity.aliases.auth_userpass_c62aabe6.name}}/password" {
   capabilities = [ "update" ]
 }
