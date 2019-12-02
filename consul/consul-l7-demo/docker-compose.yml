@@ -1,92 +1,203 @@
-version: "3.3"
+version: "3.3" 
 
-networks:
-  demobr:
-    driver: bridge
-    ipam:
-     config:
+networks: 
+  demobr: 
+    driver: bridge 
+    ipam: 
+      config:
        - subnet: 10.42.0.0/16
 
 services:
   consul:
-    image: grovemountain/consul-envoy:latest
+    image: grovemountain/consul:latest
     command: ["consul","agent","-config-file=/config/server.hcl","-config-dir=/config"]
     volumes:
-      - "./consul/conf.d:/config"
+      - "./server_conf:/config"
     networks:
       demobr:
         ipv4_address: 10.42.0.2
     ports:
       - 8500:8500
-
-  dogs:
-    image: grovemountain/picture-service:latest
+      
+  demo-gateway:
+    image: grovemountain/consul-demo-gateway:latest
     environment:
-      NAME: DOGS
+      BIND_HOST: 0.0.0.0
+      BIND_PORT: 8000
+      DOGS_UPSTREAM: http://127.0.0.1:42100
+      CATS_UPSTREAM: http://127.0.0.1:42200
+      PARROTS_UPSTREAM: http://127.0.0.1:42300
+      RABBITS_UPSTREAM: http://127.0.0.1:42400
       VERSION: 1
-      BIND_HOST: 127.0.0.1
+      BIND_HOST: 0.0.0.0
+    volumes:
+      - ./static:/app/static
     networks:
       demobr:
-        ipv4_address: 10.42.0.3
+        ipv4_address: 10.42.0.10
     ports:
-      - 8080:8080
+      - 8000:8000
+      - 19100:19000
 
-  dogs_envoy:
+  demo_gateway_envoy:
     image: grovemountain/consul-envoy:latest
     entrypoint: /wait_for_consul.sh
     environment:
       CONSUL_HTTP_ADDR: 10.42.0.2:8500
       CONSUL_GRPC_ADDR: 10.42.0.2:8502
-      SERVICE_JSON: /config/dogs-service.json
+      SERVICE_JSON: /config/demo-gateway-service.hcl
     volumes:
-      - "./consul/config.d:/config"
+      - "./consul/conf.d:/config"
+    command: ["consul", "connect", "envoy","-sidecar-for", "demo-gateway"]
+    network_mode: "service:demo-gateway"
+  
+  dogs_v1:
+    image: grovemountain/picture-service:latest
+    environment:
+      NAME: dogs
+      VERSION: 1
+      BIND_HOST: 0.0.0.0
+    networks:
+      demobr:
+        ipv4_address: 10.42.1.1
+    ports:
+      - 8180:8080
+      - 19200:19000
+
+  dogs_v1_envoy:
+    image: grovemountain/consul-envoy:latest
+    entrypoint: /wait_for_consul.sh
+    environment:
+      CONSUL_HTTP_ADDR: 10.42.0.2:8500
+      CONSUL_GRPC_ADDR: 10.42.0.2:8502
+      SERVICE_JSON: /config/dogs-service-v1.hcl
+    volumes:
+      - "./consul/conf.d:/config"
     command: ["consul", "connect", "envoy","-sidecar-for", "dogs-v1"]
-    network_mode: "service:dogs"
+    network_mode: "service:dogs_v1"
 
-  # Define web service and envoy sidecar proxy
-#  web:
-#    image: nicholasjackson/upstream-echo:v0.1.8
-#    environment:
-#      LISTEN_ADDR: 0.0.0.0:9090
-#      UPSTREAM_ADDR: localhost:9991
-#      UPSTREAM_CALL: "true"
-#      MESSAGE: "Hello World"
-#      HTTP_CLIENT_KEEP_ALIVES: "false"
-#    networks:
-#      demobr:
-#        ipv4_address: 10.42.0.3
-#    ports:
-#      - 9090:9090
-#  web_envoy:
-#    image: grovemountain/consul-envoy:latest
-#    environment:
-#      CONSUL_HTTP_ADDR: 10.42.0.2:8500
-#      CONSUL_GRPC_ADDR: 10.42.0.2:8502
-#      SERVICE_JSON: /config/web.json
-#    volumes:
-#      - "./consul/config.d:/config"
-#    command: ["consul", "connect", "envoy","-sidecar-for", "web-v1"]
-#    network_mode: "service:web"
-#
-#  # Define api service and envoy sidecar proxy for version 1 of the service
-#  api_v1:
-#    image: nicholasjackson/upstream-echo:v0.1.8
-#    environment:
-#      LISTEN_ADDR: localhost:9090
-#      MESSAGE: "Service V1"
-#    networks:
-#      demobr:
-#        ipv4_address: 10.42.0.4
-#  api_proxy_v1:
-#    image: grovemountain/consul-envoy:latest
-#    environment:
-#      CONSUL_HTTP_ADDR: 10.42.0.2:8500
-#      CONSUL_GRPC_ADDR: 10.42.0.2:8502
-#      SERVICE_JSON: /config/api_v1.json
-#    volumes:
-#      - "./consul/config.d:/consul/config"
-#    command: ["consul", "connect", "envoy","-sidecar-for", "api-v1"]
-#    network_mode: "service:api_v1"
-#  
+  cats_v1:
+    image: grovemountain/picture-service:latest
+    environment:
+      NAME: cats
+      VERSION: 1
+      BIND_HOST: 0.0.0.0
+    networks:
+      demobr:
+        ipv4_address: 10.42.2.1
+    ports:
+      - 8280:8080
+      - 19300:19000
+
+  cats_v1_envoy:
+    image: grovemountain/consul-envoy:latest
+    entrypoint: /wait_for_consul.sh
+    environment:
+      CONSUL_HTTP_ADDR: 10.42.0.2:8500
+      CONSUL_GRPC_ADDR: 10.42.0.2:8502
+      SERVICE_JSON: /config/cats-service-v1.hcl
+    volumes:
+      - "./consul/conf.d:/config"
+    command: ["consul", "connect", "envoy","-sidecar-for", "cats-v1"]
+    network_mode: "service:cats_v1"
+
+  rabbits_v1:
+    image: grovemountain/picture-service:latest
+    environment:
+      NAME: rabbits
+      VERSION: 1
+      BIND_HOST: 0.0.0.0
+    networks:
+      demobr:
+        ipv4_address: 10.42.3.1
+    ports:
+      - 8380:8080
+      - 19400:19000
+
+  rabbits_v1_envoy:
+    image: grovemountain/consul-envoy:latest
+    entrypoint: /wait_for_consul.sh
+    environment:
+      CONSUL_HTTP_ADDR: 10.42.0.2:8500
+      CONSUL_GRPC_ADDR: 10.42.0.2:8502
+      SERVICE_JSON: /config/rabbits-service-v1.hcl
+    volumes:
+      - "./consul/conf.d:/config"
+    command: ["consul", "connect", "envoy","-sidecar-for", "rabbits-v1"]
+    network_mode: "service:rabbits_v1"
+
+  dogs_v2:
+    image: grovemountain/picture-service:latest
+    environment:
+      NAME: dogs
+      VERSION: 2
+      BIND_HOST: 0.0.0.0
+    networks:
+      demobr:
+        ipv4_address: 10.42.1.2
+    ports:
+      - 9180:8080
+      - 19500:19000
+
+  dogs_v2_envoy:
+    image: grovemountain/consul-envoy:latest
+    entrypoint: /wait_for_consul.sh
+    environment:
+      CONSUL_HTTP_ADDR: 10.42.0.2:8500
+      CONSUL_GRPC_ADDR: 10.42.0.2:8502
+      SERVICE_JSON: /config/dogs-service-v2.hcl
+    volumes:
+      - "./consul/conf.d:/config"
+    command: ["consul", "connect", "envoy","-sidecar-for", "dogs-v2"]
+    network_mode: "service:dogs_v2"
 
 
+  cats_v2:
+    image: grovemountain/picture-service:latest
+    environment:
+      NAME: cats
+      VERSION: 2
+      BIND_HOST: 0.0.0.0
+    networks:
+      demobr:
+        ipv4_address: 10.42.2.2
+    ports:
+      - 9280:8080
+      - 19600:19000
+
+  cats_v2_envoy:
+    image: grovemountain/consul-envoy:latest
+    entrypoint: /wait_for_consul.sh
+    environment:
+      CONSUL_HTTP_ADDR: 10.42.0.2:8500
+      CONSUL_GRPC_ADDR: 10.42.0.2:8502
+      SERVICE_JSON: /config/cats-service-v2.hcl
+    volumes:
+      - "./consul/conf.d:/config"
+    command: ["consul", "connect", "envoy","-sidecar-for", "cats-v2"]
+    network_mode: "service:cats_v2"
+
+  rabbits_v2:
+    image: grovemountain/picture-service:latest
+    environment:
+      NAME: rabbits
+      VERSION: 2
+      BIND_HOST: 0.0.0.0
+    networks:
+      demobr:
+        ipv4_address: 10.42.3.2
+    ports:
+      - 9380:8080
+      - 19700:19000
+
+  rabbits_v2_envoy:
+    image: grovemountain/consul-envoy:latest
+    entrypoint: /wait_for_consul.sh
+    environment:
+      CONSUL_HTTP_ADDR: 10.42.0.2:8500
+      CONSUL_GRPC_ADDR: 10.42.0.2:8502
+      SERVICE_JSON: /config/rabbits-service-v2.hcl
+    volumes:
+      - "./consul/conf.d:/config"
+    command: ["consul", "connect", "envoy","-sidecar-for", "rabbits-v2"]
+    network_mode: "service:rabbits_v2"

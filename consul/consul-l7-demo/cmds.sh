@@ -18,6 +18,9 @@ docker run --rm --name nginx -v ${PWD}/assets/static:/usr/share/nginx/html:ro -p
 # 
 consul-template -consul-addr=http://127.0.0.1:8500 -template="assets/consul-template/index.tpl:assets/static/index.html"
 
+consul-template -vault-renew-token=false -consul-addr=http://127.0.0.1:8500 \
+  -template="templates/consul-template/holy_grail.json.tpl:static/holy_grail.json" \
+  -template="templates/consul-template/holy_grail.html.tpl:static/holy_grail.html"
 
 
   #-e CONSUL_BIND_INTERFACE=eth0  \
